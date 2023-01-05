@@ -128,5 +128,8 @@
     background-color: #000;
     color: #333;
     font-family: Georgia, serif;
+    canvas {
+      bottom: 0;
+    }
   }
 </style>
