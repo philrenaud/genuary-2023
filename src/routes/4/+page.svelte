@@ -31,7 +31,7 @@
   };
 
   // Set the number of curves to draw
-  const numCurves = 50;
+  const numCurves = 100;
 
   $: maxThickness = box.height / numCurves / 10;
 
