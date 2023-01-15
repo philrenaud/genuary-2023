@@ -6,6 +6,10 @@
   let canvasElement;
   let fnsToDraw = [];
   let frameId;
+  let ctx;
+  export let reDraw = true;
+  export let memo;
+  let internalMemo;
 
   export let width;
   export let height;
@@ -25,8 +29,9 @@
   onMount(() => {
     // get canvas context
     // console.log('onmount and', canvasElement);
-    let ctx = canvasElement?.getContext("2d");
+    ctx = canvasElement?.getContext("2d");
     frameId = requestAnimationFrame(() => draw(ctx));
+    internalMemo = memo;
   });
 
   onDestroy(() => {
@@ -35,10 +40,19 @@
     }
   });
 
+  $: {
+    if (memo !== internalMemo && ctx){
+      requestAnimationFrame(() => clear())
+      frameId = requestAnimationFrame(() => draw(ctx))
+    }
+  }
+
 function draw(ctx) {
   fnsToDraw.forEach((fn) => fn(ctx));
-  requestAnimationFrame(() => clear())
-  frameId = requestAnimationFrame(() => draw(ctx))
+  if (reDraw) {
+    requestAnimationFrame(() => clear())
+    frameId = requestAnimationFrame(() => draw(ctx))
+  }
 }
 function clear() {
   // console.log('width here is', canvasElement.width);
