@@ -21,17 +21,14 @@
     removeDrawFn: (fn) => {
         let index = fnsToDraw.indexOf(fn);
         if (index > -1){
-        fnsToDraw.splice(index, 1);
+          fnsToDraw.splice(index, 1);
         }
     },
   });
 
   onMount(() => {
-    // get canvas context
-    // console.log('onmount and', canvasElement);
     ctx = canvasElement?.getContext("2d");
-    frameId = requestAnimationFrame(() => draw(ctx));
-    internalMemo = memo;
+    requestAnimationFrame(() => draw(ctx));
   });
 
   onDestroy(() => {
@@ -40,23 +37,16 @@
     }
   });
 
-  $: {
-    if (memo !== internalMemo && ctx){
-      requestAnimationFrame(() => clear())
-      frameId = requestAnimationFrame(() => draw(ctx))
-    }
+  function draw(ctx) {
+    fnsToDraw.forEach((fn) => fn(ctx));
+    requestAnimationFrame(() => {
+      clear();
+      draw(ctx);
+    });
   }
 
-function draw(ctx) {
-  fnsToDraw.forEach((fn) => fn(ctx));
-  if (reDraw) {
-    requestAnimationFrame(() => clear())
-    frameId = requestAnimationFrame(() => draw(ctx))
-  }
-}
 function clear() {
-  // console.log('width here is', canvasElement.width);
-  canvasElement?.getContext("2d").clearRect(0,0,canvasElement.width, canvasElement.width);
+  canvasElement?.getContext("2d").clearRect(0,0,width, height);
 }
 
 </script>
@@ -96,9 +86,7 @@ on:mousedown={(e) => {
 }}
 on:mouseup
 on:mouseleave
-on:click={() => {
-  clear();
-}}
+on:click
 bind:this={canvasElement} />
 <slot />
 

@@ -5,3 +5,10 @@ export type CanvasContext = {
   removeDrawFn: (fn: DrawFn) => void;
   clear: () => void;
 };
+
+export type Line = {
+  start: Point;
+  end: Point;
+  color: string;
+  width: number;
+};
