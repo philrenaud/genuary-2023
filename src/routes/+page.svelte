@@ -6,6 +6,7 @@
       <li><a href="/3">3: Glitch</a></li>
       <li><a href="/4">4: Intersections</a></li>
       <li><a href="/14">14: Asemic Writing</a></li>
+      <li><a href="/xx">xx: Paris</a></li>
     </ul>
   </div>
 </main>
